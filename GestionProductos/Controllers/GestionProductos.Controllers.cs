@@ -32,5 +32,25 @@ namespace GestionProductos.Controllers
             await _appDBcontext.SaveChangesAsync();
             return Ok(producto);
         }
+
+        [HttpPut]
+
+        public async Task<IActionResult> UpdateProducto(Producto producto)
+        {
+            _appDBcontext.Entry(producto).State = EntityState.Modified;
+            await _appDBcontext.SaveChangesAsync();
+            return Ok(producto);
+        }
+
+        [HttpDelete("{id}")]
+
+        public async Task<IActionResult> DeleteProducto(int id)
+        {
+            var producto = await _appDBcontext.Productos.FindAsync(id);
+            if (producto == null) return NotFound();
+            _appDBcontext.Productos.Remove(producto);
+            await _appDBcontext.SaveChangesAsync();
+            return Ok(producto);
+        }
     }
 }
